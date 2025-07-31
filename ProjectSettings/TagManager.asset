@@ -7,11 +7,12 @@ TagManager:
   - PlayerBullet
   - Enemy
   - EnemyBullet
+  - S.E - Road
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Path
   - Water
   - UI
   - 
