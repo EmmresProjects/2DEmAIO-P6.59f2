@@ -25,9 +25,38 @@ public class OneTimeCloudSpawner : MonoBehaviour
     public int minSize = 1;
     public int maxSize = 10;
 
-    /// <summary>
-    /// Spawns the configured number of clouds at random positions and scales.
-    /// </summary>
+    private Transform cloudParent;
+
+    void Start()
+    {
+        SetupParent();
+        SpawnClouds();
+    }
+
+    [ContextMenu("Spawn Clouds")]
+    private void ContextSpawn()
+    {
+        SetupParent();
+        SpawnClouds();
+    }
+
+    private void SetupParent()
+    {
+        GameObject prefabsRoot = GameObject.Find("Prefabs");
+        if (prefabsRoot == null)
+            prefabsRoot = new GameObject("Prefabs");
+
+        Transform oneTimeClouds = prefabsRoot.transform.Find("OneTimeClouds");
+        if (oneTimeClouds == null)
+        {
+            GameObject cloudsObj = new GameObject("OneTimeClouds");
+            cloudsObj.transform.SetParent(prefabsRoot.transform);
+            oneTimeClouds = cloudsObj.transform;
+        }
+
+        cloudParent = oneTimeClouds;
+    }
+
     public void SpawnClouds()
     {
         if (cloudPrefab == null)
@@ -38,33 +67,19 @@ public class OneTimeCloudSpawner : MonoBehaviour
 
         for (int i = 0; i < cloudCount; i++)
         {
-            // Randomize position
             float x = Random.Range(minSpawnPosition.x, maxSpawnPosition.x);
             float y = Random.Range(spawnYMin, spawnYMax);
             float z = Random.Range(minSpawnPosition.z, maxSpawnPosition.z);
             Vector3 spawnPos = new Vector3(x, y, z);
 
-            // Instantiate
-            GameObject cloud = Instantiate(cloudPrefab, spawnPos, Quaternion.identity);
+            GameObject cloud = Instantiate(cloudPrefab, spawnPos, Quaternion.identity, cloudParent);
 
-            // Apply uniform random scale
             int uniformScale = Random.Range(minSize, maxSize + 1);
             cloud.transform.localScale = Vector3.one * uniformScale;
 
-            // Optional: check for CloudMovement
             var mover = cloud.GetComponent<CloudMovement>();
             if (mover == null)
                 Debug.LogWarning("OneTimeCloudSpawner: CloudMovement missing on prefab.", cloud);
         }
     }
-
-    // Auto-spawn on Start
-    void Start()
-    {
-        SpawnClouds();
-    }
-
-    // Context menu option in Inspector
-    [ContextMenu("Spawn Clouds")]
-    private void ContextSpawn() => SpawnClouds();
 }

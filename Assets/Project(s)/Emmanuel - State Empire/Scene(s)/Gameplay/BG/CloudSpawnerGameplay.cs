@@ -27,6 +27,8 @@ public class CloudMakerGameplay : MonoBehaviour
     [Tooltip("Fixed movement speed for every spawned cloud.")]
     public float speed = 2f;
 
+    private Transform cloudParent;
+
     void Start()
     {
         if (cloudPrefab == null)
@@ -35,6 +37,22 @@ public class CloudMakerGameplay : MonoBehaviour
             enabled = false;
             return;
         }
+
+        // Find or create Prefabs/Clouds parent
+        GameObject prefabsRoot = GameObject.Find("Prefabs");
+        if (prefabsRoot == null)
+            prefabsRoot = new GameObject("Prefabs");
+
+        Transform clouds = prefabsRoot.transform.Find("Clouds");
+        if (clouds == null)
+        {
+            GameObject cloudsObj = new GameObject("Clouds");
+            cloudsObj.transform.SetParent(prefabsRoot.transform);
+            clouds = cloudsObj.transform;
+        }
+
+        cloudParent = clouds;
+
         StartCoroutine(SpawnLoop());
     }
 
@@ -42,22 +60,16 @@ public class CloudMakerGameplay : MonoBehaviour
     {
         while (true)
         {
-            // 1) Wait a random interval
             float interval = Random.Range(minSpawnInterval, maxSpawnInterval);
             yield return new WaitForSeconds(interval);
 
-            // 2) Determine spawn position
             float y = Random.Range(spawnYMin, spawnYMax);
             float z = cloudPrefab.transform.position.z;
             Vector3 spawnPos = new Vector3(spawnX, y, z);
 
-            // 3) Instantiate cloud
-            GameObject cloud = Instantiate(cloudPrefab, spawnPos, Quaternion.identity);
-
-            // 4) Apply fixed size
+            GameObject cloud = Instantiate(cloudPrefab, spawnPos, Quaternion.identity, cloudParent);
             cloud.transform.localScale = size;
 
-            // 5) Apply fixed speed
             var move = cloud.GetComponent<CloudMovement>();
             if (move != null)
                 move.speed = speed;
