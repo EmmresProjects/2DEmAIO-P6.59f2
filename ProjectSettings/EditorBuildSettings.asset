@@ -6,13 +6,16 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Project(s)/Emmanuel - Activity # 3  Space Shooter (Due Week 9)/Asset(s)/Scenes/StartMenu.unity
+    path: Assets/Project(s)/Game Programming 1/Emmanuel - Activity # 3  Space Shooter
+      (Due Week 9)/Asset(s)/Scenes/StartMenu.unity
     guid: bc72d6a0eca5b2247ba0b8cd8d5f2537
   - enabled: 1
-    path: Assets/Project(s)/Emmanuel - Activity # 3  Space Shooter (Due Week 9)/Asset(s)/Scenes/Gameplay.unity
+    path: Assets/Project(s)/Game Programming 1/Emmanuel - Activity # 3  Space Shooter
+      (Due Week 9)/Asset(s)/Scenes/AlienSpaceshipShooterGameplay.unity
     guid: 79aaf185e3411d34d94cc58218a4937e
   - enabled: 1
-    path: Assets/Project(s)/Emmanuel - Activity # 3  Space Shooter (Due Week 9)/Asset(s)/Scenes/GameOver.unity
+    path: Assets/Project(s)/Game Programming 1/Emmanuel - Activity # 3  Space Shooter
+      (Due Week 9)/Asset(s)/Scenes/GameOver.unity
     guid: 615dc6537f529934f9b2bed7eb408d9f
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
